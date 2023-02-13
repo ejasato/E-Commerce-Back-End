@@ -3,22 +3,20 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
-  const TagData = Tag.findALL({
-    include: [{ model: Tag, include: [{ model: ProductTag, include: [{ model: Product}] }] }],
+  const TagData = await Tag.findALL({
+    include: [{model: Product, through: ProductTag}],
   });
   res.status(200).json(TagData);
-
-  res.status(500).json(err);
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
-  const TagData = Tag.findByPk(req.params.id, {
-    include: [{ model: Tag, include: [{ model: ProductTag, include: [{ model: Product}] }] }],
+  const TagData = await Tag.findByPk(req.params.id, {
+    include: [{model: Product, through: ProductTag}],
   });
   if (!TagData) {
     res.status(404).json({ message: 'No Id found with that id'});
@@ -30,16 +28,15 @@ router.get('/:id', (req, res) => {
   res.status(500).json(err);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new tag
-  const TagCreate = Tag.create(req.body);
+  const TagCreate = await Tag.create(req.body);
   res.status(200).json(TagCreate);
-  res.status(500).json(err);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
-  const TagUpdate = Tag.update ({
+  const TagUpdate = await Tag.update ({
     where: {
       id: req.params.id,
     },
@@ -51,12 +48,11 @@ router.put('/:id', (req, res) => {
   }
 
   res.status(200).json(TagUpdate);
-  res.status(500).json(err);
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
-  const TagData = Tag.destroy({
+  const TagData = await Tag.destroy({
     where: {
       id: req.params.id,
     },
@@ -68,7 +64,6 @@ router.delete('/:id', (req, res) => {
   }
 
   res.status(200).json(TagData);
-  res.status(500).json(err);
 });
 
 module.exports = router;
