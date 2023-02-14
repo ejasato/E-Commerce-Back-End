@@ -13,6 +13,8 @@
 
   ## Installation
   Access your terminal then from there run npm i and npm run seed then npm run start and then go to insomnia and you can do CRUD operations in there to check out the functionality of the software.  This also can be paired with front end.
+  
+[Uploading Untitled_ Feb 14, 2023 11_17 AM (1).webm…]()
 
   ## Usage
   Using insomnia or a software that can do CRUD operations you can access the routes.  GET, PUT, POST and DELETE routes work with put and delete both using id's to work.
