@@ -28,8 +28,6 @@ router.get('/:id', async  (req, res) => {
   }
 
   res.status(200).json(ProductData);
-
-  res.status(500).json(err);
 });
 
 // create new product

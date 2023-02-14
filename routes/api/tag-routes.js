@@ -6,7 +6,7 @@ const { Tag, Product, ProductTag } = require('../../models');
 router.get('/', async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
-  const TagData = await Tag.findALL({
+  const TagData = await Tag.findAll({
     include: [{model: Product, through: ProductTag}],
   });
   res.status(200).json(TagData);
@@ -24,8 +24,6 @@ router.get('/:id', async (req, res) => {
   }
 
   res.status(200).json(TagData);
-
-  res.status(500).json(err);
 });
 
 router.post('/', async (req, res) => {
@@ -36,7 +34,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
-  const TagUpdate = await Tag.update ({
+  const TagUpdate = await Tag.update (req.body,{
     where: {
       id: req.params.id,
     },
@@ -46,6 +44,7 @@ router.put('/:id', async (req, res) => {
     res.status(404).json({ message: 'No Tag found to update'});
     return;
   }
+  res.status(200).json(TagUpdate);
 });
 
 router.delete('/:id', async (req, res) => {
